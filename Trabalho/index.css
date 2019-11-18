@@ -1,0 +1,31 @@
+.curso {
+    padding: 8px;
+    background-color: mediumseagreen;
+    border-radius: 5px;
+}
+
+.componente {
+    padding: 8px;
+    background-color: mediumturquoise;
+    border-radius: 5px;
+}
+
+.docente {
+    padding: 8px;
+    background-color: mediumvioletred;
+    border-radius: 5px;
+}
+
+.horario {
+    padding: 8px;
+    background-color: mediumblue;
+    border-radius: 5px;
+}
+
+table {
+    margin-top: 2% !important;
+}
+
+label {
+    width: 100%;
+}
