@@ -23,35 +23,16 @@
             </div>
             <div class="col-xl">
                 <table class="table table-striped table-dark">
+                <thead>
                     <th>Horário</th>
                     <th>Segunda</th>
                     <th>Terça</th>
                     <th>Quarta</th>
                     <th>Quinta</th>
                     <th>Sexta</th>
-                <?php
-                if (($arquivo = fopen("index.csv", "r")) !== false) {
-                    fgetcsv($arquivo, 50, ',');
-                    while (($linha = fgetcsv($arquivo, 50, ',')) !== false) {
-                        $linha1 = $linha[1] != "" ? $linha[1] : "<label class='alert alert-light'>Vazio</label>";
-                        $linha2 = $linha[2] != "" ? $linha[2] : "<label class='alert alert-light'>Vazio</label>";
-                        $linha3 = $linha[3] != "" ? $linha[3] : "<label class='alert alert-light'>Vazio</label>";
-                        $linha4 = $linha[4] != "" ? $linha[4] : "<label class='alert alert-light'>Vazio</label>";
-                        $linha5 = $linha[5] != "" ? $linha[5] : "<label class='alert alert-light'>Vazio</label>";
-                     print "<tr>
-                            <td><label class='btn btn-success'><span class='oi oi-clock'></span>{$linha[0]}</label></td>
-                            <td> {$linha1} </td>
-                            <td> {$linha2} </td>
-                            <td> {$linha3} </td>
-                            <td> {$linha4} </td>
-                            <td> {$linha5} </td>
-                        </tr>";
-                    }
-                    fclose($arquivo);
-                } else {
-                    die("Ocorreu um erro ao abrir arquivo!");
-                }
-                ?>
+                </thead>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
