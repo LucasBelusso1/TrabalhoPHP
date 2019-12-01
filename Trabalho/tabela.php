@@ -1,7 +1,7 @@
 <?php
     $arquivo = fopen("dados.csv", "r");
     $dados = [];
-    while($linha = fgetcsv($arquivo, 500, ",")) {
+    while(($linha = fgetcsv($arquivo, 500, ",")) !== false) {
         $dados = [
             'horario' => $linha[0],
             'coluna1' => $linha[1],            

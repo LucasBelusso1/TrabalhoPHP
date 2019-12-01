@@ -1,0 +1,12 @@
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha(this.parent())'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha(event, this)'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha(this)'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha($('button').parent())'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha($('button').parent())'>X</button></td></tr>
+<tr><td class='btn btn-secondary' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha($('button').parent())'>X</button></td></tr>
+<tr><td class='btn btn-secondary' id ='xesquedele' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha($('#xesquedele').val())'>X</button></td></tr>

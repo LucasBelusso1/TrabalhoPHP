@@ -29,3 +29,24 @@ table {
 label {
     width: 100%;
 }
+
+.col {
+    margin-left: 10px;
+}
+
+#opcoes {
+    width: 40%;
+    height: 40%;
+}
+
+#tableFichas {
+    width: 40%;
+}
+
+td {
+    width: 100%;
+}
+
+#excluir {
+    margin-left: 150px;
+}
