@@ -29,17 +29,11 @@ function montarTabela() {
         url: 'tabela.php',
         method: 'GET'
     }).done(function(response) {
-<<<<<<< HEAD
         let dados = JSON.parse(response);
         console.log(dados);
         dados.forEach(function(campo) {
             let linha = "<tr><td>" + campo.horario + "</td><td>" + campo.coluna1 + "</td><td>" + campo.coluna2 + "</td><td>" + campo.coluna3 + "</td><td>" + campo.coluna4 + "</td><td>" + campo.coluna5 + "</td></tr>"
             $("#tabela").append(linha);
-=======
-        var data = JSON.parse(response)
-        data.forEach(function(campos) {
-            console.log(campos);
->>>>>>> 9cfdecdf87095037dee6278ce2ce910660e9cebb
         });
     });
 }
@@ -49,18 +43,11 @@ function montarGradeSpan() {
         url: 'spans.php',
         method: 'GET'
     }).done(function(response) {
-<<<<<<< HEAD
         let dados = JSON.parse(response);
         console.log(dados);
         dados.forEach(function(fichas) {
             console.log(fichas);
             $("#fichas").append(fichas.span);
-=======
-        var data = JSON.parse(response);
-        data.forEach(function(campo) {
-            console.log(campo);
-            $("#fichas").append(campo.span);
->>>>>>> 9cfdecdf87095037dee6278ce2ce910660e9cebb
         });
     });
 }
