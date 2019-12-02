@@ -1,0 +1,4 @@
+<tr><td class='btn btn-secondary' id ='xesquedele' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>
+<tr><td class='btn btn-primary' draggable='true'>2 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>
+<tr><td class='btn btn-danger' draggable='true'>3 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>
+<tr><td class='btn btn-dark' draggable='true'>4 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>
