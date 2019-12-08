@@ -8,16 +8,16 @@ function colarInputs() {
     $("#opcoes>*").remove();
     $("#botton").remove();
     if ($("select").val() == 1) {
-        html = "<input placeholder='Nome do curso' class='list-group-item'></br>";
+        html = "<input placeholder='Nome do curso' class='list-group-item' id='curso'></br>";
     } else if ($("select").val() == 2) {
-        html = "<input placeholder='Nome do componente' class='list-group-item'></br>";
-        html += "<input placeholder='Creditos' class='list-group-item'></br>";
-        html += "<input placeholder='Curso' class='list-group-item'></br>";
-        html += "<input placeholder='Período  na grade curricular' class='list-group-item'></br>";
+        html = "<input placeholder='Nome do componente' class='list-group-item' id='componente'></br>";
+        html += "<input placeholder='Creditos' class='list-group-item' id='creditos'></br>";
+        html += "<input placeholder='Curso' class='list-group-item' id='curso'></br>";
+        html += "<input placeholder='Período  na grade curricular' class='list-group-item' id='periodo'></br>";
     } else if ($("select").val() == 3) {
-        html = "<input placeholder='Nome do docente' class='list-group-item'></br>";
+        html = "<input placeholder='Nome do docente' class='list-group-item' id='docente'></br>";
     } else if ($("select").val() == 4) {
-        html = "<input placeholder='Horário' class='list-group-item'></br>";
+        html = "<input placeholder='Horário' class='list-group-item' id='horario'></br>";
     }
     var button = "<button onclick='geraSpan()' class='btn btn-success' id='botton'>Gerar</button>"
     $("#opcoes").append(html);
@@ -30,9 +30,14 @@ function montarTabela() {
         method: 'GET'
     }).done(function(response) {
         let dados = JSON.parse(response);
-        console.log(dados);
         dados.forEach(function(campo) {
-            let linha = "<tr><td>" + campo.horario + "</td><td>" + campo.coluna1 + "</td><td>" + campo.coluna2 + "</td><td>" + campo.coluna3 + "</td><td>" + campo.coluna4 + "</td><td>" + campo.coluna5 + "</td></tr>"
+            let linha = "<tr><td class ='horarioTabela'>" + campo.horario + "</td>"
+            linha += "<td @dragDrop>" + campo.coluna1 + "</td>";
+            linha += "<td @dragDrop>" + campo.coluna2 + "</td>";
+            linha += "<td @dragDrop>" + campo.coluna3 + "</td>";
+            linha += "<td @dragDrop>" + campo.coluna4 + "</td>";
+            linha += "<td @dragDrop>" + campo.coluna5 + "</td></tr>";
+            linha = linha.split("@dragDrop").join(" class='dia' ondrop='drop(event, this)' ondragover='dragover(event, this)' ondragleave='dragleave(event, this)' ondragenter='dragenter(event, this)'");
             $("#tabela").append(linha);
         });
     });
@@ -43,8 +48,8 @@ function montarGradeSpan() {
         url: 'spans.php',
         method: 'GET'
     }).done(function(response) {
+        console.log(response);
         let dados = JSON.parse(response);
-        console.log(dados);
         dados.forEach(function(fichas) {
             console.log(fichas);
             $("#fichas").append(fichas.span);
@@ -53,61 +58,79 @@ function montarGradeSpan() {
 }
 
 function geraSpan() {
+    var id = 0;
+    $.ajax({
+        url: 'spans.php',
+        method: 'GET'
+    }).done(function(response) {
+        let dados = JSON.parse(response);
+        dados.forEach(function(fichas) {
+            id = fichas.id;
+        });
+        id += 1;
+    });
     var td;
     if ($("select").val() == 1) {
-        td = "<tr><td class='btn btn-secondary' id ='xesquedele' draggable='true'>1 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>";
+        td = "<tr><td class='btn btn-secondary' id='" + id + "' @dragDrop >" + $("#curso").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
     } else if ($("select").val() == 2) {
-        td = "<tr><td class='btn btn-primary' draggable='true'>2 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>";
+        td = "<tr><td class='btn btn-primary' id='" + id + "' @dragDrop>" + $("#componente").val() + $("#creditos").val() + $("#curso").val() + $("#periodo").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
     } else if ($("select").val() == 3) {
-        td = "<tr><td class='btn btn-danger' draggable='true'>3 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>";
+        td = "<tr><td class='btn btn-danger' id='" + id + "' @dragDrop>" + $("#docente").val() + " <button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
     } else if ($("select").val() == 4) {
-        td = "<tr><td class='btn btn-dark' draggable='true'>4 <button class='btn btn-danger' id='excluir' onclick='excluirFicha()'>X</button></td></tr>";
+        td = "<tr><td class='btn btn-dark' id='" + id + "' @dragDrop>" + $("#horario").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
     }
-    salvaSpan(td);
+    td = td.split("@dragDrop").join("ondrag='drag(event, this)' ondragend='dragend(event, this)' ondragstart='dragstart(event, this)' draggable='true'");
+    salvaSpan(td, id);
     $("#fichas").append(td);
 }
 
-function salvaSpan(ficha) {
+function salvaSpan(ficha, id) {
     $.ajax({
         url: 'salvarSpan.php',
         method: 'POST',
-        data: { ficha: ficha }
+        data: {
+            id: id,
+            ficha: ficha
+        }
     }).done(function(response) {
         console.log("salvou!");
     })
 }
 
-function excluirFicha(event) {
-    console.log(event);
+function excluirFicha(elemento) {
+    console.log(elemento);
+    elemento.remove();
 }
 
-// Elemento que está sendo arrastado
-var e = null;
+// FUNÇÕES PARA AS FICHAS
+// função executada enquanto o elemento é arrastado
+function drag(event, elemento) {
+
+}
+
+// função que é executada quando termina de arrastar um elemento
+function dragend(event, elemento) {
+    //trocando css de um elemento com JQUERY
+    $(elemento).css('opacity', '');
+}
 
 // função que é executada quando começa a arrastar um elemento
 function dragstart(event, elemento) {
     //Armazenando a referência de um elemento JQUERY
     e = $(elemento)
         //trocando css de um elemento com JQUERY
-    $(elemento).css('background-color', 'blue');
+    e.css('opacity', '0.2');
     console.log('Começou a mover')
 }
 
-// função que é executada quando termina de arrastar um elemento
-function dragend(event, elemento) {
-    //trocando css de um elemento com JQUERY
-    $(elemento).css('background-color', '');
-    console.log('Terminou de mover')
-}
 
-// função executada enquanto o elemento é arrastado
-function drag(event, elemento) {
-    console.log(
-        $(elemento).html() +
-        ' está sendo movimentado'
-    )
-}
+// Elemento que está sendo arrastado
+var e = null;
 
+
+
+
+//FUNÇÃO PARA AONDE AS FICHAS VÃO CAIR
 //função executada quando um elemento entra da área de drop
 function dragenter(event, elemento) {
     //Testando se o elemento pode ser solto nesse local

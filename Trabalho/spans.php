@@ -1,10 +1,10 @@
 <?php
     $arquivo = fopen("spans.csv", "r");
     $dados = [];
-    while(($linha = fgetcsv($arquivo, 500, ",")) !== false) {
-
+    while(($linha = fgetcsv($arquivo, 10000, ";")) !== false) {
         $dados[] = [
-            'span' => $linha[0]
+            'id' => $linha[0],
+            'span' => $linha[1]
         ];
     }
     fclose($arquivo);
