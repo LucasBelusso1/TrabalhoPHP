@@ -7,16 +7,16 @@ function colarInputs() {
     var html;
     $("#opcoes>*").remove();
     $("#botton").remove();
-    if ($("select").val() == 1) {
+    if ($("select").val() == "CURSO") {
         html = "<input placeholder='Nome do curso' class='list-group-item' id='curso'></br>";
-    } else if ($("select").val() == 2) {
+    } else if ($("select").val() == "COMPONENTE") {
         html = "<input placeholder='Nome do componente' class='list-group-item' id='componente'></br>";
         html += "<input placeholder='Creditos' class='list-group-item' id='creditos'></br>";
         html += "<input placeholder='Curso' class='list-group-item' id='curso'></br>";
         html += "<input placeholder='Período  na grade curricular' class='list-group-item' id='periodo'></br>";
-    } else if ($("select").val() == 3) {
+    } else if ($("select").val() == "DOCENTE") {
         html = "<input placeholder='Nome do docente' class='list-group-item' id='docente'></br>";
-    } else if ($("select").val() == 4) {
+    } else if ($("select").val() == "HORARIO") {
         html = "<input placeholder='Horário' class='list-group-item' id='horario'></br>";
     }
     var button = "<button onclick='geraSpan()' class='btn btn-success' id='botton'>Gerar</button>"
@@ -48,11 +48,26 @@ function montarGradeSpan() {
         url: 'spans.php',
         method: 'GET'
     }).done(function(response) {
-        console.log(response);
         let dados = JSON.parse(response);
         dados.forEach(function(fichas) {
-            console.log(fichas);
-            $("#fichas").append(fichas.span);
+            var html = "<tr><td @tipo id='" + fichas.id + "' ondrag='drag(event, this)' ondragend='dragend(event, this)' ondragstart='dragstart(event, this)' draggable='true' >" + fichas.conteudo + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha("+ fichas.id + ","  + fichas.tipo + "," + fichas.conteudo +")'>X</button></td></tr>"
+            var tipo;
+            switch(fichas.tipo) {
+                case("CURSO"):
+                    tipo = "class='btn btn-secondary'";
+                    break;
+                case("COMPONENTE"):
+                    tipo = "class='btn btn-primary'";
+                    break;  
+                case("DOCENTE"):
+                    tipo = "class='btn btn-danger'";
+                    break;
+                case("HORARIO"):
+                    tipo = "class='btn btn-dark'";
+                    break;
+            }
+            html = html.split("@tipo").join(tipo);
+            $("#fichas").append(html);
         });
     });
 }
@@ -70,36 +85,53 @@ function geraSpan() {
         id += 1;
     });
     var td;
-    if ($("select").val() == 1) {
-        td = "<tr><td class='btn btn-secondary' id='" + id + "' @dragDrop >" + $("#curso").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
-    } else if ($("select").val() == 2) {
-        td = "<tr><td class='btn btn-primary' id='" + id + "' @dragDrop>" + $("#componente").val() + $("#creditos").val() + $("#curso").val() + $("#periodo").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
-    } else if ($("select").val() == 3) {
-        td = "<tr><td class='btn btn-danger' id='" + id + "' @dragDrop>" + $("#docente").val() + " <button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
-    } else if ($("select").val() == 4) {
-        td = "<tr><td class='btn btn-dark' id='" + id + "' @dragDrop>" + $("#horario").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(" + id + ")'>X</button></td></tr>";
+    var conteudo;
+    if ($("select").val() == "CURSO") {
+        td = "<tr><td class='btn btn-secondary' id='" + id + "' @dragDrop >" + $("#curso").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(@parametros)'>X</button></td></tr>";
+        conteudo = $("#curso").val();
+    } else if ($("select").val() == "COMPONENTE") {
+        td = "<tr><td class='btn btn-primary' id='" + id + "' @dragDrop>" + $("#componente").val() + $("#creditos").val() + $("#curso").val() + $("#periodo").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(@parametros)'>X</button></td></tr>";
+        conteudo = $("#componente").val() + "<br/>" + $("#creditos").val() + "<br/>" + $("#curso").val() + "<br/>" + $("#periodo").val();
+    } else if ($("select").val() == "DOCENTE") {
+        td = "<tr><td class='btn btn-danger' id='" + id + "' @dragDrop>" + $("#docente").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(@parametros)'>X</button></td></tr>";
+        conteudo = $("#docente").val();
+    } else if ($("select").val() == "HORARIO") {
+        td = "<tr><td class='btn btn-dark' id='" + id + "' @dragDrop>" + $("#horario").val() + "<button class='btn btn-danger' id='excluir' onclick='excluirFicha(@parametros)'>X</button></td></tr>";
+        conteudo = $("#horario").val();
     }
     td = td.split("@dragDrop").join("ondrag='drag(event, this)' ondragend='dragend(event, this)' ondragstart='dragstart(event, this)' draggable='true'");
-    salvaSpan(td, id);
+    console.log(td);
+    salvaSpan(id, $("select").val(), conteudo);
     $("#fichas").append(td);
 }
 
-function salvaSpan(ficha, id) {
+function salvaSpan(id, tipo, conteudo) {
     $.ajax({
         url: 'salvarSpan.php',
         method: 'POST',
         data: {
             id: id,
-            ficha: ficha
+            tipo: tipo,
+            conteudo: conteudo
         }
     }).done(function(response) {
         console.log("salvou!");
-    })
+    });
 }
 
-function excluirFicha(elemento) {
-    console.log(elemento);
-    elemento.remove();
+function excluirFicha(id, tipo, conteudo) {
+    $("#" + id).remove();
+    $.ajax({
+        url: 'excluirFicha.php',
+        method: 'POST',
+        data: {
+            id: id,
+            tipo: tipo,
+            conteudo: conteudo
+        }
+    }).done(function(response) {
+        console.log("excluiu!");
+    });
 }
 
 // FUNÇÕES PARA AS FICHAS

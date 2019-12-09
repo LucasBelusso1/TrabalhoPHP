@@ -4,7 +4,8 @@
     while(($linha = fgetcsv($arquivo, 10000, ";")) !== false) {
         $dados[] = [
             'id' => $linha[0],
-            'span' => $linha[1]
+            'tipo' => $linha[1],
+            'conteudo' =>$linha[2]
         ];
     }
     fclose($arquivo);
