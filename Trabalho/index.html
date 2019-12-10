@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="utf-8">
@@ -19,7 +19,7 @@
                         <option value="CURSO">Curso</option>
                         <option value="COMPONENTE">Componente Curricular</option>
                         <option value="DOCENTE">Docente</option>
-                        <option value="HORÁRIO">Horário</option>
+                        <option value="HORARIO">Horário</option>
                 </select>
                     <ul class="list-group" id="opcoes"></ul>
                 </div>
@@ -33,6 +33,9 @@
                         </thead>
                         <tbody id="fichas" ondrop="drop(event, this)" ondragover="dragover(event, this)" ondragleave="dragleave(event, this)" ondragenter="dragenter(event, this)"></tbody>
                     </table>
+                </div>
+                <div class="row lixo" ondrop="excluirFicha(event, this)" ondragover="dragover(event, this)" ondragleave="lixoSai(event, this)" ondragenter="lixoEntra(event, this)">
+                    <i class="fas fa-trash fa-3x"></i>
                 </div>
             </div>
             <div class="col-xl">
@@ -54,7 +57,9 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="index.js"></script>
     <link rel="stylesheet" href="index.css">
 </body>
+
 </html>
