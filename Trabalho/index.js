@@ -28,6 +28,8 @@ function colarInputs() {
         html += "<input placeholder='Período  na grade curricular'  required='required' class='list-group-item' id='periodo'></br>";
         html += "<hr>";
         html += "<input placeholder='Nome do docente' required='required' class='list-group-item' id='docente'></br>";
+    } else if ($("select").val() == "BLOQUEIO") {
+        html = "<input value='Horário Bloqueado' class='list-group-item' id='bloqueio' required='required' disabled></br>"
     }
 
     var button = "<button onclick='getUltimoId()' class='btn btn-success' id='botton'>Gerar</button>"
@@ -71,16 +73,17 @@ function montarGradeSpan() {
                     tipo = "class='btn btn-primary'";
                     break;
                 case ("DOCENTE"):
-                    tipo = "class='btn btn-danger'";
+                    tipo = "class='btn btn-warning'";
                     break;
                 case ("HORARIO"):
                     tipo = "class='btn btn-dark'";
                     break;
                 case ("TURMA"):
-                    tipo = "class='btn btn-outline-info'";
+                    tipo = "class='btn btn-success'";
                     break;
-            
-
+                case ("BLOQUEIO"):
+                    tipo = "class='btn btn-danger";
+                    break;
             }
             html = html.split("@tipo").join(tipo);
             $("#fichas").append(html);
@@ -99,7 +102,7 @@ function geraSpan(id) {
         td = "<tr><td class='btn btn-primary' id='" + id + "' @dragDrop>" + $("#componente").val() + $("#creditos").val() + $("#curso").val() + $("#periodo").val() + "</tr>";
         conteudo = $("#componente").val() + "<br/>" + $("#creditos").val() + "<br/>" + $("#curso").val() + "<br/>" + $("#periodo").val();
     } else if ($("select").val() == "DOCENTE") {
-        td = "<tr><td class='btn btn-danger' id='" + id + "' @dragDrop>" + $("#docente").val() + "</tr>";
+        td = "<tr><td class='btn btn-warning' id='" + id + "' @dragDrop>" + $("#docente").val() + "</tr>";
         conteudo = $("#docente").val();
     } else if ($("select").val() == "HORARIO") {
         td = "<tr><td class='btn btn-dark' id='" + id + "' @dragDrop>" + $("#horario").val() + "</tr>";
@@ -107,6 +110,9 @@ function geraSpan(id) {
     } else if ($("select").val() == "TURMA") {
         td = "<tr><td class='btn btn-success' id='" + id + "' @dragDrop>" + $("#ano").val() + $("#semestre").val() + $("#componente").val() + $("#creditos").val() + $("#curso").val() + $("#periodo").val() + $("#docente").val() + "</tr>";
         conteudo = $("#ano").val() + "<br/>" + +$("#semestre").val() + "<br/>" + $("#componente").val() + "<br/>" + $("#creditos").val() + "<br/>" + $("#curso").val() + "<br/>" + $("#periodo").val() + "<br/>" + $("#docente").val();
+    } else if ($("select").val() == "BLOQUEIO") {
+        td = "<tr><td class='btn btn-danger' id='" + id + "' @dragDrop>" + $("#bloqueio").val() + "</tr>";
+        conteudo = $("#bloqueio").val();
     }
     td = td.split("@dragDrop").join("ondrag='drag(event, this)' ondragend='dragend(event, this)' ondragstart='dragstart(event, this)' draggable='true'");
     salvaSpan(id, $("select").val(), conteudo);
