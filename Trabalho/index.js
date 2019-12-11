@@ -82,7 +82,7 @@ function montarGradeSpan() {
                     tipo = "class='btn btn-success'";
                     break;
                 case ("BLOQUEIO"):
-                    tipo = "class='btn btn-danger";
+                    tipo = "class='btn btn-danger bloqueio";
                     break;
             }
             html = html.split("@tipo").join(tipo);
@@ -111,7 +111,7 @@ function geraSpan(id) {
         td = "<tr><td class='btn btn-success' id='" + id + "' @dragDrop>" + $("#ano").val() + $("#semestre").val() + $("#componente").val() + $("#creditos").val() + $("#curso").val() + $("#periodo").val() + $("#docente").val() + "</tr>";
         conteudo = $("#ano").val() + "<br/>" + +$("#semestre").val() + "<br/>" + $("#componente").val() + "<br/>" + $("#creditos").val() + "<br/>" + $("#curso").val() + "<br/>" + $("#periodo").val() + "<br/>" + $("#docente").val();
     } else if ($("select").val() == "BLOQUEIO") {
-        td = "<tr><td class='btn btn-danger' id='" + id + "' @dragDrop>" + $("#bloqueio").val() + "</tr>";
+        td = "<tr><td class='btn btn-danger' ondragover = 'dragover(event, this)' id='" + id + "' @dragDrop>" + $("#bloqueio").val() + "</tr>";
         conteudo = $("#bloqueio").val();
     }
     td = td.split("@dragDrop").join("ondrag='drag(event, this)' ondragend='dragend(event, this)' ondragstart='dragstart(event, this)' draggable='true'");
@@ -204,7 +204,7 @@ function lixoSai(event, elemento) {
     $(elemento).css('background-color', '');
 }
 
-var bloqueios = ['d4', 'd3'];
+var bloqueios = ['bloqueado'];
 
 function permite(elemento) {
     let id = $(elemento).attr('id')
@@ -223,6 +223,12 @@ function dragover(event, elemento) {
 
 //função executada quando o drop é concluído.
 function drop(event, elemento) {
+    if($(e).hasClass('bloqueio')){
+        $(elemento).addClass('bloqueado');
+        $(elemento).removeAttr('ondrop');
+        $(elemento).removeAttr('ondragover');
+        $(elemento).removeAttr('ondragenter');
+    }
     //troca css com JQUERY
     $(elemento).css('border', '');
     //Adicionar o elemento na área de drop com JQUERY
