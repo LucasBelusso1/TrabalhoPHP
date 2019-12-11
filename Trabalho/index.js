@@ -3,6 +3,22 @@ $('document').ready(function() {
     montarGradeSpan();
 })
 
+var doc = new jsPDF();
+var specialElementHandlers = {
+    '#editor': function (element, renderer) {
+        return true;
+    }
+};
+
+$('#cmd').click(function () {
+    doc.fromHTML($('html').html(), 30, 30, {
+        'width': 500,
+            'elementHandlers': specialElementHandlers
+    });
+    doc.save('sample-file.pdf');
+});
+
+
 function colarInputs() {
     var html;
     $("#opcoes>*").remove();
