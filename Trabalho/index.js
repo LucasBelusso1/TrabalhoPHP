@@ -8,17 +8,28 @@ function colarInputs() {
     $("#opcoes>*").remove();
     $("#botton").remove();
     if ($("select").val() == "CURSO") {
-        html = "<input placeholder='Nome do curso' class='list-group-item' id='curso'></br>";
+        html = "<input placeholder='Nome do curso' class='list-group-item' id='curso' required='required'></br>";
     } else if ($("select").val() == "COMPONENTE") {
-        html = "<input placeholder='Nome do componente' class='list-group-item' id='componente'></br>";
-        html += "<input placeholder='Creditos' class='list-group-item' id='creditos'></br>";
-        html += "<input placeholder='Curso' class='list-group-item' id='curso'></br>";
-        html += "<input placeholder='Período  na grade curricular' class='list-group-item' id='periodo'></br>";
+        html = "<input placeholder='Nome do componente' required class='list-group-item' id='componente'></br>";
+        html += "<input placeholder='Creditos'required='required' class='list-group-item' id='creditos'></br>";
+        html += "<input placeholder='Curso' required='required' class='list-group-item' id='curso'></br>";
+        html += "<input placeholder='Período  na grade curricular'  required='required' class='list-group-item' id='periodo'></br>";
     } else if ($("select").val() == "DOCENTE") {
-        html = "<input placeholder='Nome do docente' class='list-group-item' id='docente'></br>";
+        html = "<input placeholder='Nome do docente' required='required' class='list-group-item' id='docente'></br>";
     } else if ($("select").val() == "HORARIO") {
-        html = "<input placeholder='Horário' class='list-group-item' id='horario'></br>";
+        html = "<input placeholder='Horário' required='required' class='list-group-item' id='horario'></br>";
+    } else if (($("select").val() == "TURMA")) {
+        html = "<input placeholder='Ano da turma' class='list-group-item' id='ano' required='required'></br>";
+        html += "<input placeholder='Semestre da turma'required='required' class='list-group-item' id='semestre'></br>";
+        html += "<hr>";
+        html += "<input placeholder='Nome do componente' class='list-group-item' id='componente'></br>";
+        html += "<input placeholder='Creditos'required='required' class='list-group-item' id='creditos'></br>";
+        html += "<input placeholder='Curso' required='required' class='list-group-item' id='curso'></br>";
+        html += "<input placeholder='Período  na grade curricular'  required='required' class='list-group-item' id='periodo'></br>";
+        html += "<hr>";
+        html += "<input placeholder='Nome do docente' required='required' class='list-group-item' id='docente'></br>";
     }
+
     var button = "<button onclick='getUltimoId()' class='btn btn-success' id='botton'>Gerar</button>"
     $("#opcoes").append(html);
     $("#button").append(button);
@@ -65,6 +76,11 @@ function montarGradeSpan() {
                 case ("HORARIO"):
                     tipo = "class='btn btn-dark'";
                     break;
+                case ("TURMA"):
+                    tipo = "class='btn btn-outline-info'";
+                    break;
+            
+
             }
             html = html.split("@tipo").join(tipo);
             $("#fichas").append(html);
@@ -88,6 +104,9 @@ function geraSpan(id) {
     } else if ($("select").val() == "HORARIO") {
         td = "<tr><td class='btn btn-dark' id='" + id + "' @dragDrop>" + $("#horario").val() + "</tr>";
         conteudo = $("#horario").val();
+    } else if ($("select").val() == "TURMA") {
+        td = "<tr><td class='btn btn-success' id='" + id + "' @dragDrop>" + $("#ano").val() + $("#semestre").val() + $("#componente").val() + $("#creditos").val() + $("#curso").val() + $("#periodo").val() + $("#docente").val() + "</tr>";
+        conteudo = $("#ano").val() + "<br/>" + +$("#semestre").val() + "<br/>" + $("#componente").val() + "<br/>" + $("#creditos").val() + "<br/>" + $("#curso").val() + "<br/>" + $("#periodo").val() + "<br/>" + $("#docente").val();
     }
     td = td.split("@dragDrop").join("ondrag='drag(event, this)' ondragend='dragend(event, this)' ondragstart='dragstart(event, this)' draggable='true'");
     salvaSpan(id, $("select").val(), conteudo);
